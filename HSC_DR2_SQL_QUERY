@@ -1,0 +1,28 @@
+SELECT
+	object_id
+      , ra
+      , dec
+      , i_cmodel_mag
+	  , i_kronflux_mag
+	  , i_apertureflux_10_mag
+    FROM
+	pdr2_dud.forced
+	LEFT JOIN pdr2_dud.forced2 USING (object_id)
+	LEFT JOIN pdr2_dud.forced3 USING (object_id)
+    WHERE
+	boxSearch(coord, -50, 60, -1.25, 1.25)
+
+	AND i_apertureflux_10_mag BETWEEN 19 AND 23.5
+	AND NOT i_cmodel_flag
+	AND NOT i_pixelflags
+	AND NOT i_inputcount_flag
+	AND NOT i_localbackground_flag
+	AND NOT i_variance_flag
+	AND NOT i_sdsscentroid_flag
+	AND isprimary
+	AND merge_measurement_i
+	AND merge_footprint_i
+
+
+    LIMIT 7200
+;
